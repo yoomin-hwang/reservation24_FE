@@ -1,15 +1,19 @@
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Header () {
   return (
-    <HeaderWrapper>
-      <Logo>
-        <img src="./" alt="csee logo" />
-      </Logo>
-      <Menu>HOME</Menu>
-      <Menu>조회 및 예약하기</Menu>
-      <Log>LOGOUT</Log>
-    </HeaderWrapper>
+    <>
+      <HeaderWrapper>
+        <Logo>
+          <img src="./" alt="csee logo" />
+        </Logo>
+        <Menu>HOME</Menu>
+        <Menu>조회 및 예약하기</Menu>
+        <Log>LOGOUT</Log>
+      </HeaderWrapper>
+      <Outlet />
+    </>
   );
 };
 
