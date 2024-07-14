@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import ReservationTable from "../Components/ReservationTable";
 
 function MainPage () {
   return (
@@ -24,9 +25,16 @@ function MainPage () {
             ※ 모든 강의실은 수업이 우선이며, 대여가 된 강의실이라도 수업을 할 경우 대여가 취소될 수 있습니다.<br/>
             ※ 방학 중 강의실 예약은 16주차 월 &#40;6/17&#41; 오전 10시부터 가능합니다.
           </Explain>
-
+          <Contacts>
+            <TopC>
+              [문의] 학부사무실 054-260-1378, 1414
+            </TopC>
+            <BottomC>
+              [야간·휴일 문 개방] 정문 경비실 054-260-1110
+            </BottomC>
+          </Contacts>
         </ExplainWrapper>
-
+        <ReservationTable />
       </MainWrapper>
     </div>
   );
@@ -36,8 +44,18 @@ const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+`
+
+const ExplainWrapper = styled.div`
+  width: 40%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 `
+
 const Title = styled.div`
   width: 85%;
   margin: 3rem;
@@ -47,20 +65,14 @@ const Title = styled.div`
   align-items: center;
   justify-content: flex-start;
 
-  font-size: 18px;
-`
-
-const ExplainWrapper = styled.div`
-  width: 40%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  font-size: 45px;
 `
 
 const SubTitle = styled.div`
+  width: 100%;
   text-align: center;
+  font-size: 25px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,12 +80,29 @@ const SubTitle = styled.div`
 `
 
 const Explain = styled.div`
+  width: 100%;
   margin: 1rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+`
+
+const Contacts = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+const TopC = styled.div`
+  font-size: 18px;
+`
+
+const BottomC = styled.div`
+  font-size: 16px;
 `
 
 export default MainPage;
