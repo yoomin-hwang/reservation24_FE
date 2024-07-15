@@ -3,14 +3,15 @@ import styled from 'styled-components';
 
 function Header () {
   const activeStyle = {
-    color: '#527CFF'
+    color: '#0030EE',
+    fontWeight: '600'
   }
   
   return (
     <>
       <HeaderWrapper>
         <Logo>
-          <img src="./" alt="csee logo" />
+          <NavLink to="/"><img src="./csee.jpg" alt="csee logo" style={{width: "10rem"}}/></NavLink>
         </Logo>
         <Menu>
           <MenuList><NavLink to="/" style={({isActive}) => (
@@ -62,6 +63,7 @@ const MenuList = styled.div`
     font-weight: 500;
 
     &:hover {
+      color: #527CFF;
       font-weight: 600;
     }
   }
