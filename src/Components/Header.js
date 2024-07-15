@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Header () {
@@ -9,8 +9,9 @@ function Header () {
           <img src="./" alt="csee logo" />
         </Logo>
         <Menu>
-          <MenuList>HOME</MenuList>
-          <MenuList>조회 및 예약하기</MenuList>
+          <MenuList><Link to="/">HOME</Link></MenuList>
+          <MenuList><Link to="/reserve">조회 및 예약하기</Link></MenuList>
+          <MenuList><Link to="/mypage">나의 예약 내역</Link></MenuList>
         </Menu>
         <Log>LOGOUT</Log>
       </HeaderWrapper>
@@ -27,7 +28,7 @@ const HeaderWrapper = styled.div`
   width: 100%;
   height: 10vh;
 
-  border-bottom: solid 1px #BDBDBD;
+  border-bottom: solid 1px #C7DFDF;
 `
 
 const Logo = styled.div`
@@ -38,13 +39,22 @@ const Logo = styled.div`
 const Menu = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 60%;
+  margin-right: 50%;
 
   font-size: 16px;
 `
 
 const MenuList = styled.div`
   margin: 1rem;
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+
+    &:hover {
+      font-weight: 600;
+    }
+  }
 `
 
 const Log = styled.button`
@@ -56,6 +66,26 @@ const Log = styled.button`
   border-radius: 8px;
 
   font-size: 16px;
+  font-weight: 500;
+
+  &:hover {
+    cursor: pointer;
+    border-color: #A6CACA;
+  }
 `
 
 export default Header;
+
+// 밑으로 갈수록 연해짐
+// white
+// #A6CACA
+// #C7DFDF
+// #E0EFEF
+// #FAFFFF
+
+// 밑으로 갈수록 진해짐
+// blue
+// #527CFF
+// #2051FF
+// #0030EE
+// #0028D5
