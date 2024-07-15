@@ -8,8 +8,10 @@ function Header () {
         <Logo>
           <img src="./" alt="csee logo" />
         </Logo>
-        <Menu>HOME</Menu>
-        <Menu>조회 및 예약하기</Menu>
+        <Menu>
+          <MenuList>HOME</MenuList>
+          <MenuList>조회 및 예약하기</MenuList>
+        </Menu>
         <Log>LOGOUT</Log>
       </HeaderWrapper>
       <Outlet />
@@ -29,10 +31,31 @@ const HeaderWrapper = styled.div`
 `
 
 const Logo = styled.div`
+  margin: 1rem;
+  margin-left: 2rem;
 `
 
-const Menu = styled.div``
+const Menu = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-right: 60%;
 
-const Log = styled.button``
+  font-size: 16px;
+`
+
+const MenuList = styled.div`
+  margin: 1rem;
+`
+
+const Log = styled.button`
+  margin: 2rem;
+  width: 6rem;
+  height: 2rem;
+  background-color: #E0EFEF;
+  border: 1px solid #C7DFDF;
+  border-radius: 8px;
+
+  font-size: 16px;
+`
 
 export default Header;

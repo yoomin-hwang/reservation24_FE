@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import ReservationTable from "../Components/ReservationTable";
 
 function MainPage () {
   return (
@@ -34,7 +33,6 @@ function MainPage () {
             </BottomC>
           </Contacts>
         </ExplainWrapper>
-        <ReservationTable />
       </MainWrapper>
     </div>
   );
