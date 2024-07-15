@@ -1,7 +1,11 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Header () {
+  const activeStyle = {
+    color: '#527CFF'
+  }
+  
   return (
     <>
       <HeaderWrapper>
@@ -9,9 +13,15 @@ function Header () {
           <img src="./" alt="csee logo" />
         </Logo>
         <Menu>
-          <MenuList><Link to="/">HOME</Link></MenuList>
-          <MenuList><Link to="/reserve">조회 및 예약하기</Link></MenuList>
-          <MenuList><Link to="/mypage">나의 예약 내역</Link></MenuList>
+          <MenuList><NavLink to="/" style={({isActive}) => (
+            isActive ? activeStyle : undefined
+          )}>HOME</NavLink></MenuList>
+          <MenuList><NavLink to="/reserve" style={({isActive}) => (
+            isActive ? activeStyle : undefined
+          )}>조회 및 예약하기</NavLink></MenuList>
+          <MenuList><NavLink to="/mypage" style={({isActive}) => (
+            isActive ? activeStyle : undefined
+          )}>나의 예약 내역</NavLink></MenuList>
         </Menu>
         <Log>LOGOUT</Log>
       </HeaderWrapper>
