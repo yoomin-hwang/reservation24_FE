@@ -64,12 +64,14 @@ const Title = styled.div`
   justify-content: flex-start;
 
   font-size: 45px;
+  font-weight: 600;
 `
 
 const SubTitle = styled.div`
   width: 100%;
   text-align: center;
   font-size: 25px;
+  font-weight: 500;
 
   display: flex;
   flex-direction: column;

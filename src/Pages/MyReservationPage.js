@@ -29,7 +29,10 @@ const MyReservationWrapper = styled.div`
 `
 
 const ContentsWrapper = styled.div`
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `
 
 const Title = styled.div`
@@ -42,6 +45,7 @@ const Title = styled.div`
   justify-content: flex-start;
 
   font-size: 45px;
+  font-weight: 600;
 `
 
 const SubTitle = styled.div`
