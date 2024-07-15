@@ -10,6 +10,10 @@ const ReservationPage = () => {
           조회 및 예약하기
         </Title>
         <ContentsWrapper>
+          <RoomWrapper>
+          </RoomWrapper>
+          <ReserveWrapper>
+          </ReserveWrapper>
         </ContentsWrapper>
       </ReservationWrapper>
     </div>
@@ -27,10 +31,14 @@ const ReservationWrapper = styled.div`
 
 const ContentsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 `
+
+const RoomWrapper = styled.div``
+
+const ReserveWrapper = styled.div``
 
 const Title = styled.div`
   width: 85%;
@@ -43,15 +51,4 @@ const Title = styled.div`
 
   font-size: 45px;
   font-weight: 600;
-`
-
-const SubTitle = styled.div`
-  width: 100%;
-  text-align: center;
-  font-size: 25px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `

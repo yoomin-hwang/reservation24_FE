@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 function MainPage () {
@@ -33,6 +33,7 @@ function MainPage () {
             </BottomC>
           </Contacts>
         </ExplainWrapper>
+        <ToReserve><NavLink to="/reserve">예약하기</NavLink></ToReserve>
       </MainWrapper>
     </div>
   );
@@ -105,4 +106,46 @@ const BottomC = styled.div`
   font-size: 16px;
 `
 
+const ToReserve = styled.div`
+  margin: 4rem;
+  width: 6rem;
+  height: 2rem;
+
+  background-color: #527CFF;
+  border: 1px solid #527CFF;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: #FAFFFF;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: #2051FF;
+    border-color: #2051FF;
+  }
+`
+
 export default MainPage;
+
+// 밑으로 갈수록 연해짐
+// white
+// #A6CACA
+// #C7DFDF
+// #E0EFEF
+// #FAFFFF
+
+// 밑으로 갈수록 진해짐
+// blue
+// #527CFF
+// #2051FF
+// #0030EE
+// #0028D5

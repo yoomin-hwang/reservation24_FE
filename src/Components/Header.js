@@ -23,7 +23,7 @@ function Header () {
             isActive ? activeStyle : undefined
           )}>나의 예약 내역</NavLink></MenuList>
         </Menu>
-        <Log>LOGOUT</Log>
+        <Log>로그아웃</Log>
       </HeaderWrapper>
       <Outlet />
     </>
@@ -69,7 +69,7 @@ const MenuList = styled.div`
 
 const Log = styled.button`
   margin: 2rem;
-  width: 6rem;
+  width: 5rem;
   height: 2rem;
   background-color: #E0EFEF;
   border: 1px solid #C7DFDF;
@@ -80,6 +80,7 @@ const Log = styled.button`
 
   &:hover {
     cursor: pointer;
+    background-color: #C7DFDF;
     border-color: #A6CACA;
   }
 `
