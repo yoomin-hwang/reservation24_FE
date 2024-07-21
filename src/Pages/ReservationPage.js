@@ -1,7 +1,20 @@
 import { Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import Room from "../Components/Room";
+import ReserveForm from "../Components/ReserveForm";
 
 const ReservationPage = () => {
+  const [room, setRoom] = useState([]);
+
+  useEffect(() => {
+    fetch("/Data/room.json")
+      .then((res) => res.json())
+      .then((data) => {
+      setRoom(data);
+    });
+  }, []);
+  
   return (
     <div>
       <Outlet />
@@ -10,10 +23,14 @@ const ReservationPage = () => {
           조회 및 예약하기
         </Title>
         <ContentsWrapper>
-          <RoomWrapper>
-          </RoomWrapper>
-          <ReserveWrapper>
-          </ReserveWrapper>
+          {/* Room Info Area */}
+          <RoomsWrapper>
+            {room.map((room) => (
+              <Room key={room.id} id={room.id} />
+            ))}
+          </RoomsWrapper>
+          {/* Reservation Area */}
+          <ReserveForm />
         </ContentsWrapper>
       </ReservationWrapper>
     </div>
@@ -23,6 +40,8 @@ const ReservationPage = () => {
 export default ReservationPage;
 
 const ReservationWrapper = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,15 +49,28 @@ const ReservationWrapper = styled.div`
 `
 
 const ContentsWrapper = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 `
 
-const RoomWrapper = styled.div``
+const RoomsWrapper = styled.div`
+  width: 45%;
+  height: 65vh;
 
-const ReserveWrapper = styled.div``
+  margin: 1rem;
+  padding: 6rem 2.5rem;
+  border = 1px solid #ECECEC;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+`
 
 const Title = styled.div`
   width: 85%;
