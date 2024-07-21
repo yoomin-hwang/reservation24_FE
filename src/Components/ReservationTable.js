@@ -15,15 +15,14 @@ function ReservationTable() {
 
   // Define columns for DataGrid
   const columns = [
-    { field: 'no', headerName: 'NO', width: 70 },
-    { field: 'place', headerName: 'Place', width: 130 },
-    { field: 'rdate', headerName: 'Date', width: 130 },
-    { field: 'rtime', headerName: 'Time', width: 130 },
-    { field: 'faculty', headerName: 'Faculty', width: 130 },
+    { field: 'no', headerName: 'NO', width: 40 },
+    { field: 'place', headerName: 'Place', width: 150 },
+    { field: 'rdate', headerName: 'Date', width: 120 },
+    { field: 'rtime', headerName: 'Start Time', width: 90 },
+    { field: 'etime', headerName: 'End Time', width: 90 },
+    { field: 'faculty', headerName: 'Faculty', width: 250 },
     { field: 'professor', headerName: 'Professor', width: 130 },
-    { field: 'purpose', headerName: 'Purpose', width: 130 },
-    { field: 'approval', headerName: 'Approval', width: 130, 
-      valueGetter: (params) => params.row ? 'Approved' : 'Refused' }
+    { field: 'purpose', headerName: 'Purpose', width: 130 }
   ];
 
   // Generate rows with unique id field
@@ -33,12 +32,12 @@ function ReservationTable() {
   }));
 
   return (
-    <TableContainer>
+    <TableContainer >
       <DataGrid 
+        pagination
         rows={rows} 
         columns={columns} 
-        pageSize={5} 
-        rowsPerPageOptions={[5]} 
+        autoPageSize
         checkboxSelection
       />
     </TableContainer>
@@ -46,7 +45,7 @@ function ReservationTable() {
 };
 
 const TableContainer = styled.div`
-  height: 400px;
+  height: 423px;
   width: 100%;
   margin: 1rem 0;
 `;

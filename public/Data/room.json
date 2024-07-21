@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "NTH 413",
+        "capacity": 20,
+        "image": "./logo192.png"
+    },
+    {
+        "id": 2,
+        "name": "NTH 413",
+        "capacity": 20,
+        "image": "./logo192.png"
+    },
+    {
+        "id": 3,
+        "name": "NTH 413",
+        "capacity": 20,
+        "image": "./logo192.png"
+    },
+    {
+        "id": 4,
+        "name": "NTH 413",
+        "capacity": 20,
+        "image": "./logo192.png"
+    }
+]

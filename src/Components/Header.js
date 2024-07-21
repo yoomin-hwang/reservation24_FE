@@ -4,7 +4,8 @@ import styled from 'styled-components';
 function Header () {
   const activeStyle = {
     color: '#0030EE',
-    fontWeight: '600'
+    fontWeight: '600',
+    borderBottom: '3px solid #0030EE'
   }
   
   return (
@@ -39,7 +40,7 @@ const HeaderWrapper = styled.div`
   width: 100%;
   height: 10vh;
 
-  border-bottom: solid 1px #C7DFDF;
+  border-bottom: solid 1px #ECECEC;
 `
 
 const Logo = styled.div`
@@ -73,8 +74,8 @@ const Log = styled.button`
   margin: 2rem;
   width: 5rem;
   height: 2rem;
-  background-color: #E0EFEF;
-  border: 1px solid #C7DFDF;
+  background-color: #ECECEC;
+  border: 1px solid #ECECEC;
   border-radius: 8px;
 
   font-size: 16px;
@@ -82,8 +83,8 @@ const Log = styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: #C7DFDF;
-    border-color: #A6CACA;
+    background-color: #D4D4D4;
+    border-color: #D4D4D4;
   }
 `
 
@@ -95,6 +96,9 @@ export default Header;
 // #C7DFDF
 // #E0EFEF
 // #FAFFFF
+
+// #ECECEC
+// #D4D4D4
 
 // 밑으로 갈수록 진해짐
 // blue
