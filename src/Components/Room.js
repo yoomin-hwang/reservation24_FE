@@ -35,7 +35,7 @@ const Room = ({ id }) => {
                     <Label>이용 가능 시간</Label>
                     <RoomAvailable>
                         {timeBlock.map((available, index) => (
-                            <Time key={index} available={available === 1} />
+                            <Time key={index} available={available} />
                         ))}
                     </RoomAvailable>
                 </RoomAvailableWrapper>
@@ -49,7 +49,7 @@ const RoomWrapper = styled.div`
   height: auto;
   
   margin-bottom: 1rem;
-  padding: 1.5rem;
+  padding: 1rem;
 
   border: 1px solid #ECECEC;
   border-radius: 8px;
@@ -95,7 +95,7 @@ const RoomAvailable = styled.div`
 const Time = styled.span`
   height: 1rem;
   width: 0.5rem;
-  background-color: ${(props) => (props.available ? "#A9A9A9" : "#D3D3D3")};
+  background-color: ${(props) => (props.available === 1 ? "#A9A9A9" : "#D3D3D3")};
 `;
 
 export default Room;
