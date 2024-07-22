@@ -33,10 +33,10 @@ function ReservationTable() {
 
   return (
     <TableContainer >
-      <DataGrid 
+      <StyledDataGrid 
         pagination
-        rows={rows} 
-        columns={columns} 
+        rows={rows}
+        columns={columns}
         autoPageSize
         checkboxSelection
       />
@@ -48,6 +48,10 @@ const TableContainer = styled.div`
   height: 423px;
   width: 100%;
   margin: 1rem 0;
+`;
+
+const StyledDataGrid = styled(DataGrid)`
+  background-color: #E0EFEF;
 `;
 
 export default ReservationTable;

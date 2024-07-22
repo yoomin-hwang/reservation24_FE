@@ -1,21 +1,20 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+
+import { getAvailableRoomsAPI } from "../API/AxiosAPI";
+import { ReservationData, AvailableRooms } from "../Atom";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 const ReserveForm = () => {
-    const navigate = useNavigate();
-    const [data, setData] = useState({
-        date: new Date(),
-        startTime: "",
-        endTime: "",
-        capacity: 10,
-        roomId: 1
-    });
+    const [availableRooms, setAvailableRooms] = useRecoilState(AvailableRooms);
+    const [data, setData] = useRecoilState(ReservationData);
 
+    const [next, setNext] = useState(false);
+
+    // 데이터 입력 관련 함수들
     const generateTimeOptions = () => {
         const times = [];
         for (let hour = 0; hour < 24; hour++) {
@@ -58,22 +57,41 @@ const ReserveForm = () => {
         setData({ ...data, roomId: parseInt(e.target.value) });
     };
     
-    // 다음 버튼
+    // 다음 버튼 누를 시
     const onNext = () => {
-
+        // 값이 안 들어가면 못 넘어가는 로직 추가하기
+        setNext(true);
     };
 
+    // 초기화 버튼 누를 시
     const onInitialize = () => {
         setData({
             date: new Date(),
             startTime: "",
             endTime: "",
             capacity: 10,
-            roomId: 1
+            roomId: ""
         });
     }
 
+    // 조건에 맞는 회의실 리스트 서버로부터 받아오기
+    const getAvailableRooms = async () => {
+        const response = getAvailableRoomsAPI(data);
+        console.log(response);
+        setAvailableRooms(response);
+    };
+
+    useEffect(() => {
+        // axios
+        getAvailableRooms();
+    }, [data.date, data.startTime, data.endTime, data.capacity]);
+
     return (
+        // 다음 버튼 선택 여부에 따라 보여지는 컴포넌트 달라짐
+        (next ? 
+        <ReserveWrapper>
+        </ReserveWrapper>
+        :
         <ReserveWrapper>
             <CalendarWrapper>
                 <Calendar>Calendar</Calendar>
@@ -126,7 +144,7 @@ const ReserveForm = () => {
                 <Button onClick={onNext}>다음</Button>
                 <Button onClick={onInitialize}>초기화</Button>
             </BtnWrapper>
-        </ReserveWrapper>
+        </ReserveWrapper>)
     );
 };
 

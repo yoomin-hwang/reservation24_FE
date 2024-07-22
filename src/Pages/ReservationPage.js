@@ -1,11 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+
 import Room from "../Components/Room";
 import ReserveForm from "../Components/ReserveForm";
+import { AvailableRooms } from "../Atom";
 
 const ReservationPage = () => {
   const [room, setRoom] = useState([]);
+  const rooms = useRecoilValue(AvailableRooms);
 
   useEffect(() => {
     fetch("/Data/room.json")
@@ -28,6 +32,9 @@ const ReservationPage = () => {
             {room.map((room) => (
               <Room key={room.id} id={room.id} />
             ))}
+            {/* {rooms.map((room) => (
+              <Room key={room.id} id={room.id} />
+            ))} */}
           </RoomsWrapper>
           {/* Reservation Area */}
           <ReserveForm />
