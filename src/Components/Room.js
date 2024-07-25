@@ -7,12 +7,12 @@ import { AvailableRooms, ReservationData } from "../Atom";
 
 const Room = ({ id }) => {
   // mockup data
-  const [roomInfo, setRoomInfo] = useState([]);
-  const [timeBlock, setTimeBlock] = useState([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]);
+  // const [timeBlock, setTimeBlock] = useState([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]);
 
+  const [roomInfo, setRoomInfo] = useState({ name: "", capacity: 0, image: "", available: [] });
   const [reserveInfo, setReserveInfo] = useRecoilState(ReservationData);
   const [rooms, setRooms] = useRecoilState(AvailableRooms);
-  
+
   const activeStyle = {
     backgroundColor: '#ECECEC',
     color: 'red'
@@ -22,7 +22,7 @@ const Room = ({ id }) => {
     try {
       const response = await getRoomInfoAPI(id);
       setRoomInfo(response);
-      setTimeBlock(response.available);
+      console.log(response.available);
     } catch (err) {
       console.log(err);
     }
@@ -35,22 +35,20 @@ const Room = ({ id }) => {
 
   useEffect(() => {
     getRoomInfo();
-  }, [id]);
-  
+  }, []);
+
   return (
     <RoomWrapper onClick={() => onRoomClick(id)} >
-      <img src={roomInfo.image} alt={roomInfo.name} style={{height: "5rem"}} />
+      <img src={roomInfo.image} alt={roomInfo.name} style={{ height: "5rem" }} />
       <RoomInfo>
         <RoomName>{roomInfo.name}</RoomName>
-        <Label>
-          수용 인원: {roomInfo.capacity}
-        </Label>
+        <Label>수용 인원: {roomInfo.capacity}</Label>
         <RoomAvailableWrapper>
           <Label>이용 가능 시간</Label>
           <RoomAvailable>
-            {timeBlock.map((available, index) => (
-                <Time key={index} available={available} />
-            ))}
+            {/* {roomInfo.available.map((available, index) => (
+              <Time key={index} $available={available} />
+            ))} */}
           </RoomAvailable>
         </RoomAvailableWrapper>
       </RoomInfo>
@@ -113,7 +111,7 @@ const RoomAvailable = styled.div`
 const Time = styled.span`
   height: 1rem;
   width: 0.5rem;
-  background-color: ${(props) => (props.available === 1 ? "#A9A9A9" : "#D3D3D3")};
+  background-color: ${(props) => (props.$available === 1 ? "#A9A9A9" : "#D3D3D3")};
 `;
 
 export default Room;

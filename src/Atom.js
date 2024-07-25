@@ -10,7 +10,8 @@ export const UserData = atom({
 export const ReservationData = atom({
     key: 'ReservationData',
     default: {
-        userId: "",
+        userName: "",
+        userFaculty: "",
         date: new Date(),
         startTime: "",
         endTime: "",

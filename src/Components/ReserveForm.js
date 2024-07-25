@@ -69,6 +69,14 @@ const ReserveForm = () => {
     const handleRoomChange = (e) => {
         setData({ ...data, roomId: parseInt(e.target.value) });
     };
+
+    // name, faculty, group name, purpose
+    const handleNameChange = (e) => {
+        setData({ ...data, useName: e.target.value });
+    };
+    const handleFacultyChange = (e) => {
+        setData({ ...data, userFaculty: e.target.value });
+    };
     const handleGroupNameChange = (e) => {
         setData({ ...data, groupname: e.target.value });
     };
@@ -107,18 +115,22 @@ const ReserveForm = () => {
 
     // 조건에 맞는 회의실 리스트 서버로부터 받아오기
     const getAvailableRooms = async () => {
-        const response = getAvailableRoomsAPI(data);
-        console.log(response);
-        setAvailableRooms(response);
+        try {
+            const response = await getAvailableRoomsAPI(data);
+            console.log(response);
+            setAvailableRooms(response);
+        } catch(err) {
+            console.error(err);
+        }
     };
 
     const getAllRooms = async () => {
         try {
-          const response = await getAllRoomsAPI();
-          console.log(response);
-          setAvailableRooms(response);
+            const response = getAllRoomsAPI();
+            console.log(response);
+            setAvailableRooms(response);
         } catch(err) {
-          console.error(err);
+            console.error(err);
         }
     };
 
@@ -129,7 +141,7 @@ const ReserveForm = () => {
     useEffect(() => {
         // axios 
         getAvailableRooms(reserveInfo);
-    }, [data.date, data.startTime, data.endTime, data.capacity]);
+    }, [data]);
 
     return (
         // 다음 버튼 선택 여부에 따라 보여지는 컴포넌트 달라짐
@@ -150,6 +162,14 @@ const ReserveForm = () => {
             <Field>
                 <Label>끝 시간</Label>
                 <Label>{data.endTime}</Label>
+            </Field>
+            <Field>
+                <Label>예약자 이름</Label>
+                <Input onChange={handleNameChange} />
+            </Field>
+            <Field>
+                <Label>학부</Label>
+                <Input onChange={handleFacultyChange} />
             </Field>
             <Field>
                 <Label>모임명</Label>
