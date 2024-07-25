@@ -1,22 +1,37 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import Room from "../Components/Room";
 import ReserveForm from "../Components/ReserveForm";
 import { AvailableRooms } from "../Atom";
+import { getAllRoomsAPI } from "../API/AxiosAPI";
 
 const ReservationPage = () => {
-  const [room, setRoom] = useState([]);
-  const rooms = useRecoilValue(AvailableRooms);
+  // const [room, setRoom] = useState([]);
+  // useEffect(() => {
+  //   fetch("/Data/room.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //     setRoom(data);
+  //   });
+  // }, []);
+  
+  const [rooms, setRooms] = useRecoilState(AvailableRooms);
+
+  const getAllRooms = async () => {
+    try {
+      const response = await getAllRoomsAPI();
+      console.log(response);
+      setRooms(response);
+    } catch(err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
-    fetch("/Data/room.json")
-      .then((res) => res.json())
-      .then((data) => {
-      setRoom(data);
-    });
+    getAllRooms();
   }, []);
   
   return (
@@ -29,12 +44,18 @@ const ReservationPage = () => {
         <ContentsWrapper>
           {/* Room Info Area */}
           <RoomsWrapper>
-            {room.map((room) => (
-              <Room key={room.id} id={room.id} />
-            ))}
-            {/* {rooms.map((room) => (
-              <Room key={room.id} id={room.id} />
+            {/* {room.map((room) => (
+              <Room 
+                key={room.id} 
+                id={room.id} />
             ))} */}
+            {Array.isArray(rooms) && rooms.length > 0 ? (
+            rooms.map((room) => (
+              <Room key={room.id} id={room.id} />
+            ))
+          ) : (
+            <p>No rooms available</p> // rooms가 빈 배열일 때 사용자에게 메시지 제공
+          )}
           </RoomsWrapper>
           {/* Reservation Area */}
           <ReserveForm />
@@ -69,7 +90,7 @@ const RoomsWrapper = styled.div`
   height: 65vh;
 
   margin: 1rem;
-  padding: 6rem 2.5rem;
+  padding: 4rem 2.5rem;
   border = 1px solid #ECECEC;
 
   display: flex;

@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="939adc2b-35eb-4e9e-b429-0718606188bc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Data/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/Data/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API/AxiosAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/API/AxiosAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Atom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Atom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/ReservationTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ReservationTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/ReserveForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ReserveForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Room.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Room.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Pages/ReservationPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pages/ReservationPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,30 +20,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PerforceDirect.Settings">
-    <option name="CHARSET" value="없음" />
-  </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2jSA5rUyGU09kybar0jKyWCqPXw" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "ym",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ym&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -60,6 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1721369927599</updated>
       <workItem from="1721369931443" duration="382000" />
+      <workItem from="1721802071744" duration="20000" />
     </task>
     <servers />
   </component>

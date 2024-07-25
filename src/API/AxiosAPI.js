@@ -1,22 +1,23 @@
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 
 const server = process.env.REACT_APP_API_URL;
 
-// 전체 회의실 리스트
 export const getAllRoomsAPI = async () => {
-    try {
-        const response = await axios.get(`${server}/rooms`);
-        return response.data;
-    } catch(err) {
-        console.log(err);
-    }
-};
-
-// 가능한 회의실 리스트
-export const getAvailableRoomsAPI = async () => {
   try {
     const response = await axios
-    // .get( == "all" ? `${server}/rooms` : `${server}?part=${part}`);
+    .get(`${server}/api/room`);
+    return response.data;
+  } catch(err) {
+    console.error(err);
+  }
+};
+
+
+// 가능한 회의실 리스트
+export const getAvailableRoomsAPI = async (reserveInfo) => {
+  try {
+    const response = await axios
+    .post(`${server}/api/room/available`, reserveInfo);
     return response.data;
   } catch(err) {
     console.error(err);
@@ -26,7 +27,7 @@ export const getAvailableRoomsAPI = async () => {
 // 개별 회의실 정보
 export const getRoomInfoAPI = async (roomId) => {
   try {
-      const response = await axios.get(`${server}/room/${roomId}`);
+      const response = await axios.get(`${server}/api/room/${roomId}`);
       return response.data;
   } catch(err) {
       console.log(err);
@@ -34,34 +35,43 @@ export const getRoomInfoAPI = async (roomId) => {
 };
 
 // 전체 예약 내역 보기
-export const getAllReserveAPI = async () => {
+export const getAllBoardAPI = async () => {
   try {
     const response = await axios
-    .get(`${server}/reserve/all`);
+    .get(`${server}/api/reserve/board`);
     return response.data;
   } catch(err) {
     console.error(err);
   }
 };
 
+// 예약 상세 보기
+// export const getReserveAPI = async (boardId) => {
+//   try {
+//     const response = await axios
+//     .get(`${server}/api/reserve/${boardId}`);
+//     return response.data;
+//   } catch(err) {
+//     console.error(err);
+//   }
+// };
+
 // 예약 내역 삭제하기
-export const deleteReserveAPI = async (postId) => {
+export const deleteReserveAPI = async (boardId) => {
   try {
     const response = await axios
-    .delete(`${server}/reserve/delete/${postId}`);
-    console.log(response);
-    return response;
+    .delete(`${server}/api/reserve/${boardId}`);
+    return response.data;
   } catch(err) {
     console.error(err);
   }
 };
 
 // 예약하기
-export const postReserveAPI = async (data) => {
+export const postReserveAPI = async (reserveInfo) => {
   try {
-    const config = {"Content-Type": 'application/json'};
-    const response = await axios.post(`${server}/reserve/post`, data, config);
-    return response;
+    const response = await axios.post(`${server}/api/reserve`, reserveInfo);
+    return response.data;
   } catch (err) {
     console.error(err);
   }

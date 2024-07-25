@@ -1,47 +1,61 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+
+import { getRoomInfoAPI } from "../API/AxiosAPI";
+import { AvailableRooms, ReservationData } from "../Atom";
 
 const Room = ({ id }) => {
-    const [roomInfo, setRoomInfo] = useState({
-        name: "NTH 212",
-        capacity: 20,
-        image: "/logo192.png"
-    });
+  // mockup data
+  const [roomInfo, setRoomInfo] = useState([]);
+  const [timeBlock, setTimeBlock] = useState([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]);
 
-    const [timeBlock, setTimeBlock] = useState([1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]);
+  const [reserveInfo, setReserveInfo] = useRecoilState(ReservationData);
+  const [rooms, setRooms] = useRecoilState(AvailableRooms);
+  
+  const activeStyle = {
+    backgroundColor: '#ECECEC',
+    color: 'red'
+  };
 
-    // const getRoomInfo = async () => {
-    //     try {
-    //         const response = await getRoomInfoAPI(id);
-    //         setRoomInfo(response.data);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+  const getRoomInfo = async () => {
+    try {
+      const response = await getRoomInfoAPI(id);
+      setRoomInfo(response);
+      setTimeBlock(response.available);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    // useEffect(() => {
-    //     getRoomInfo();
-    // }, [id]);
+  const onRoomClick = (id) => {
+    setReserveInfo({ ...reserveInfo, roomId: id });
+    console.log(reserveInfo);
+  };
 
-    return (
-        <RoomWrapper>
-            <img src={roomInfo.image} alt={roomInfo.name} style={{height: "5rem"}} />
-            <RoomInfo>
-                <RoomName>{roomInfo.name}</RoomName>
-                <Label>
-                    수용 인원: {roomInfo.capacity}
-                </Label>
-                <RoomAvailableWrapper>
-                    <Label>이용 가능 시간</Label>
-                    <RoomAvailable>
-                        {timeBlock.map((available, index) => (
-                            <Time key={index} available={available} />
-                        ))}
-                    </RoomAvailable>
-                </RoomAvailableWrapper>
-            </RoomInfo>
-        </RoomWrapper>
-    );
+  useEffect(() => {
+    getRoomInfo();
+  }, [id]);
+  
+  return (
+    <RoomWrapper onClick={() => onRoomClick(id)} >
+      <img src={roomInfo.image} alt={roomInfo.name} style={{height: "5rem"}} />
+      <RoomInfo>
+        <RoomName>{roomInfo.name}</RoomName>
+        <Label>
+          수용 인원: {roomInfo.capacity}
+        </Label>
+        <RoomAvailableWrapper>
+          <Label>이용 가능 시간</Label>
+          <RoomAvailable>
+            {timeBlock.map((available, index) => (
+                <Time key={index} available={available} />
+            ))}
+          </RoomAvailable>
+        </RoomAvailableWrapper>
+      </RoomInfo>
+    </RoomWrapper>
+  );
 };
 
 const RoomWrapper = styled.div`
@@ -59,6 +73,10 @@ const RoomWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+
+  &:hover {
+    background-color: #ECECEC;
+  }
 `;
 
 const RoomAvailableWrapper = styled.div`

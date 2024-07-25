@@ -51,7 +51,7 @@ const TableContainer = styled.div`
 `;
 
 const StyledDataGrid = styled(DataGrid)`
-  background-color: #E0EFEF;
+  background-color: #ECECEC;
 `;
 
 export default ReservationTable;
