@@ -2,15 +2,29 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
-import { getAvailableRoomsAPI } from "../API/AxiosAPI";
+import { getAvailableRoomsAPI, postReserveAPI } from "../API/AxiosAPI";
 import { ReservationData, AvailableRooms } from "../Atom";
+import { getAllRoomsAPI } from "../API/AxiosAPI";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router-dom";
 
 const ReserveForm = () => {
+    const navigate = useNavigate();
     const [availableRooms, setAvailableRooms] = useRecoilState(AvailableRooms);
     const [data, setData] = useRecoilState(ReservationData);
+
+    const [roomInfo, setRoomInfo] = useState({
+        name: "NTH 212",
+        capacity: 20,
+        image: "/logo192.png"
+    });
+    const [reserveInfo, setReserveInfo] = useState({
+        date: "2024-07-23",
+        start: "21:00",
+        end: "21:30",
+    });
 
     const [next, setNext] = useState(false);
 
@@ -36,7 +50,6 @@ const ReserveForm = () => {
     const startTimes = generateTimeOptions();
     const endTimes = generateEndTimeOptions(data.startTime);
 
-
     const handleDateChange = (date) => {
         setData({ ...data, date });
     };
@@ -50,17 +63,28 @@ const ReserveForm = () => {
     };
 
     const handleCapacityChange = (e) => {
-        setData({ ...data, capacity: parseInt(e.target.value) });
+        setData({ ...data, capacity: e.target.value });
     };
 
     const handleRoomChange = (e) => {
         setData({ ...data, roomId: parseInt(e.target.value) });
     };
+    const handleGroupNameChange = (e) => {
+        setData({ ...data, groupname: e.target.value });
+    };
+    const handlePurposeChange = (e) => {
+        setData({ ...data, purpose: e.target.value });
+    };
+
+    const postReservation = () => {
+        const response = postReserveAPI();
+        console.log(response);
+    }
     
     // 다음 버튼 누를 시
     const onNext = () => {
         // 값이 안 들어가면 못 넘어가는 로직 추가하기
-        setNext(true);
+        setNext(!next);
     };
 
     // 초기화 버튼 누를 시
@@ -74,6 +98,13 @@ const ReserveForm = () => {
         });
     }
 
+    // 예약하기 버튼 누를 시
+    const onSubmit = () => {
+        postReservation(reserveInfo);
+        alert("예약 완료!");
+        navigate("/");
+    };
+
     // 조건에 맞는 회의실 리스트 서버로부터 받아오기
     const getAvailableRooms = async () => {
         const response = getAvailableRoomsAPI(data);
@@ -81,15 +112,57 @@ const ReserveForm = () => {
         setAvailableRooms(response);
     };
 
+    const getAllRooms = async () => {
+        try {
+          const response = await getAllRoomsAPI();
+          console.log(response);
+          setAvailableRooms(response);
+        } catch(err) {
+          console.error(err);
+        }
+    };
+
     useEffect(() => {
-        // axios
-        getAvailableRooms();
+        getAllRooms(); 
+      }, []);
+
+    useEffect(() => {
+        // axios 
+        getAvailableRooms(reserveInfo);
     }, [data.date, data.startTime, data.endTime, data.capacity]);
 
     return (
         // 다음 버튼 선택 여부에 따라 보여지는 컴포넌트 달라짐
         (next ? 
         <ReserveWrapper>
+            <Field>
+                <Label>장소</Label>
+                <Label>{roomInfo.name}</Label>
+            </Field>
+            <Field>
+                <Label>예약 날짜</Label>
+                <Label>{data.date.toLocaleDateString()}</Label>
+            </Field>
+            <Field>
+                <Label>시작 시간</Label>
+                <Label>{data.startTime}</Label>
+            </Field>
+            <Field>
+                <Label>끝 시간</Label>
+                <Label>{data.endTime}</Label>
+            </Field>
+            <Field>
+                <Label>모임명</Label>
+                <Input onChange={handleGroupNameChange} />
+            </Field>
+            <Field>
+                <Label>목적</Label>
+                <Input onChange={handlePurposeChange} />
+            </Field>
+            <BtnWrapper>
+                <Button onClick={onNext}>이전</Button>
+                <Button onClick={onSubmit}>예약하기</Button>
+            </BtnWrapper>
         </ReserveWrapper>
         :
         <ReserveWrapper>
@@ -98,7 +171,7 @@ const ReserveForm = () => {
             </CalendarWrapper>
             <Field>
                 <Label>이용 날짜</Label>
-                <DatePicker
+                <StyledDatePicker
                     selected={data.date}
                     onChange={handleDateChange}
                     minDate={new Date()}
@@ -151,7 +224,7 @@ const ReserveForm = () => {
 const ReserveWrapper = styled.div`
     width: 30%;
     margin: 0.5rem;
-    padding-right: 2rem;
+    padding: 0.5rem 2rem;
 
     display: flex;
     flex-direction: column;
@@ -178,22 +251,100 @@ const BtnWrapper = styled.div`
 `
 
 const Calendar = styled.button`
+    width: 5rem;
+    height: 2.5rem;
+
+    border: 1px solid #E0EFEF;
+    border-radius: 8px;
+    background-color: #E0EFEF;
+
+    font-size: 16px;
+
+    &:hover {
+        border: 1px solid #C7DFDF;
+        background-color: #C7DFDF;
+    }
 `
 
 const Field = styled.div`
     width: 100%;
     margin: 1rem;
+    
+    font-size: 16px;
 `
 
 const Label = styled.label`
     margin-right: 10px;
+
+    font-size: 16px;
 `;
+
+const Input = styled.input`
+    width: 100%;
+    height: 2.5rem;
+
+    margin-top: 0.2rem;
+    padding: 0.2rem;
+    border: 1px solid #D4D4D4;
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+    &:focus{
+        border: 1px solid black;
+        outline: none;
+    }
+`
 
 const Select = styled.select`
     width: 100%;
-    padding: 5px;
+    height: 2.5rem;
+
+    margin-top: 0.2rem;
+    padding: 0.2rem;
+    border: 1px solid #D4D4D4;
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+    &:focus{
+        border: 1px solid black;
+        outline: none;
+    }
 `;
 
-const Button = styled.button``
+const StyledDatePicker = styled(DatePicker)`
+    width: 100%;
+    height: 1rem;
+
+    padding: 0.5rem;
+    border: 1px solid #D4D4D4;
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+    &:focus{
+        border: 1px solid black;
+        outline: none;
+    }
+`;
+
+const Button = styled.button`
+    width: 4.5rem;
+    height: 2rem;
+
+    margin: 0.1rem;
+    border: 1px solid #E0EFEF;
+    border-radius: 8px;
+    background-color: #E0EFEF;
+
+    font-size: 16px;
+
+    &:hover {
+        cursor: pointer;
+        border: 1px solid #C7DFDF;
+        background-color: #C7DFDF;
+    }
+`
 
 export default ReserveForm;

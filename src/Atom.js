@@ -5,7 +5,7 @@ export const UserData = atom({
     default: {
         id: "",
     }
-})
+});
 
 export const ReservationData = atom({
     key: 'ReservationData',
@@ -15,7 +15,10 @@ export const ReservationData = atom({
         startTime: "",
         endTime: "",
         capacity: "",
-        roomId: ""
+        roomId: "",
+        groupname: "",
+        purpose: "",
+        
     }
 });
 
