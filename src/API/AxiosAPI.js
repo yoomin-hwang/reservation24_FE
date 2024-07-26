@@ -71,12 +71,10 @@ export const deleteReserveAPI = async (boardId) => {
 export const postReserveAPI = async (data) => {
   try {
     console.log(data);
-    const response = await axios.post(`${server}/api/reserve`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    return response.data;
+    const config = {"Content-Type": 'application/json'};
+    const response = await axios.post(`${server}/api/reserve`, data, config);
+    console.log(response);
+    return response;
   } catch (err) {
     console.error(err);
   }

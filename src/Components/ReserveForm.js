@@ -43,8 +43,8 @@ const ReserveForm = () => {
     const endTimes = generateEndTimeOptions(data.startTime);
 
     const handleDateChange = (d) => {
-        setData({ ...data, date: d });
-        setReserveInfo({ ...reserveInfo, reservationDate: d });
+        setData({ ...data, date: d.toISOString().split("T")[0] });
+        setReserveInfo({ ...reserveInfo, reservationDate: d.toISOString().split("T")[0] });
     };
 
     const handleStartTimeChange = (e) => {
@@ -77,7 +77,7 @@ const ReserveForm = () => {
     };
 
     const postReservation = () => {
-        console.log("4 post reservation");
+        console.log(data);
         const response = postReserveAPI(data);
         console.log(response);
     }
@@ -148,7 +148,7 @@ const ReserveForm = () => {
             </Field>
             <Field>
                 <Label>예약 날짜</Label>
-                <InfoLabel>{data.date.toLocaleDateString()}</InfoLabel>
+                <InfoLabel>{data.date}</InfoLabel>
             </Field>
             <Field>
                 <Label>시작 시간</Label>
