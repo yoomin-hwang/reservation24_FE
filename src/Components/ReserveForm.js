@@ -79,6 +79,10 @@ const ReserveForm = () => {
     // 다음 버튼 누를 시
     const onNext = () => {
         // 값이 안 들어가면 못 넘어가는 로직 추가하기
+        if (!data.date || !data.startTime || !data.endTime || !data.capacity || !data.userName || !data.userFaculty || !data.groupname || !data.purpose) {
+            alert("모든 필수 입력 필드를 채워야 합니다.");
+            return;
+        }
         setNext(!next);
     };
 
