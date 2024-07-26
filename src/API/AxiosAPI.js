@@ -68,9 +68,14 @@ export const deleteReserveAPI = async (boardId) => {
 };
 
 // 예약하기
-export const postReserveAPI = async (reserveInfo) => {
+export const postReserveAPI = async (data) => {
   try {
-    const response = await axios.post(`${server}/api/reserve`, reserveInfo);
+    console.log(data);
+    const response = await axios.post(`${server}/api/reserve`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     return response.data;
   } catch (err) {
     console.error(err);

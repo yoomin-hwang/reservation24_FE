@@ -20,19 +20,20 @@ const ReservationPage = () => {
   
   const [rooms, setRooms] = useRecoilState(AvailableRooms);
 
-  const getAllRooms = async () => {
-    try {
-      const response = await getAllRoomsAPI();
-      console.log(response);
-      setRooms(response);
-    } catch(err) {
-      console.error(err);
-    }
-  };
+  // const getAllRooms = async () => {
+  //   try {
+  //     console.log("1 get all rooms");
+  //     const response = await getAllRoomsAPI();
+  //     console.log(response);
+  //     setRooms(response);
+  //   } catch(err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getAllRooms();
-  }, []);
+  // useEffect(() => {
+  //   getAllRooms();
+  // }, []);
   
   return (
     <div>
@@ -49,7 +50,7 @@ const ReservationPage = () => {
                 key={room.id} 
                 id={room.id} />
             ))} */}
-            {rooms.length > 0 ? (
+            {Array.isArray(rooms) && rooms.length > 0 ? (
               rooms.map((room) => (
                 <Room key={room.id} id={room.id} />
               ))
