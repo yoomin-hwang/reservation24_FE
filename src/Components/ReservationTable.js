@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 
-import { getAllBoardAPI } from "../API/AxiosAPI";
+import { deleteReserveAPI, getAllBoardAPI } from "../API/AxiosAPI";
+import { useNavigate } from "react-router-dom";
 
 function ReservationTable() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   
   // useEffect(() => {
@@ -13,7 +15,24 @@ function ReservationTable() {
   //     .then((data) => {
   //       setData(data);
   //     });
-  // }, []);
+  //
+  
+  // 수정 기능 꼭 필요하지 않다고 생각됨
+  // const handleEdit = (boardId) => {
+  //   navigate("/reserve");
+  // };
+
+  const handleDelete = async (boardId) => {
+    if (window.confirm("예약 내역을 삭제하시겠습니까?")) {
+      try {
+        const response = await deleteReserveAPI(boardId);
+        console.log(response);
+        setData(data.filter(item => item.id !== boardId));
+      } catch(err) {
+        console.error(err);
+      }
+    }
+  };
 
   const getAllBoard = async () => {
     try {
@@ -31,13 +50,25 @@ function ReservationTable() {
   // Define columns for DataGrid
   const columns = [
     { field: 'id', headerName: 'NO', width: 40 },
-    { field: 'roomName', headerName: 'Place', width: 150 },
-    { field: 'date', headerName: 'Date', width: 120 },
-    { field: 'startTime', headerName: 'Start Time', width: 90 },
-    { field: 'endTime', headerName: 'End Time', width: 90 },
-    { field: 'userFaculty', headerName: 'Faculty', width: 130 },
-    { field: 'userName', headerName: 'Professor', width: 130 },
-    { field: 'purpose', headerName: 'Purpose', width: 130 }
+    { field: 'roomName', headerName: '강의실', width: 140 },
+    { field: 'date', headerName: '날짜', width: 120 },
+    { field: 'startTime', headerName: '시작 시간', width: 120 },
+    { field: 'endTime', headerName: '끝 시간', width: 120 },
+    { field: 'userFaculty', headerName: '학부', width: 140 },
+    { field: 'userName', headerName: '예약자명', width: 120 },
+    { field: 'purpose', headerName: '목적', width: 140 },
+    {
+      field: 'actions',
+      headerName: '',
+      width: 100,
+      renderCell: (params) => (
+        <>
+          {/* <Button onClick={() => handleEdit(params.row.id)}>수정</Button> */}
+          <Button style={{backgroundColor: "#E92D1D", color: "#FAFFFF"}} onClick={() => handleDelete(params.row.id)}>삭제</Button>
+        </>
+      ),
+      sortable: false
+    }
   ];
 
   // Generate rows with unique id field
@@ -54,6 +85,7 @@ function ReservationTable() {
         columns={columns}
         autoPageSize
         checkboxSelection
+        disableColumnResize
       />
     </TableContainer>
   );
@@ -66,8 +98,27 @@ const TableContainer = styled.div`
 `;
 
 const StyledDataGrid = styled(DataGrid)`
+  width: 100%;
   background-color: #ECECEC;
 `;
+
+const Button = styled.button`
+    width: 4rem;
+    height: 2rem;
+
+    margin: 0.1rem;
+    border: 1px solid #E0EFEF;
+    border-radius: 8px;
+    background-color: #E0EFEF;
+
+    font-size: 16px;
+
+    &:hover {
+        cursor: pointer;
+        border: 1px solid #C7DFDF;
+        background-color: #C7DFDF;
+    }
+`
 
 export default ReservationTable;
 

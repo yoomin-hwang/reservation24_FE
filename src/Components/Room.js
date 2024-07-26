@@ -14,8 +14,8 @@ const Room = ({ id }) => {
   const [roomData, setRoomData] = useRecoilState(RoomData);
 
   const activeStyle = {
-    backgroundColor: '#ECECEC',
-    color: 'red'
+    backgroundColor: '#E0EFEF',
+    border: '2px solid #E0EFEF'
   };
 
   const getRoomInfo = async () => {
@@ -39,7 +39,7 @@ const Room = ({ id }) => {
   }, []);
 
   return (
-    <RoomWrapper onClick={() => onRoomClick(id)} >
+    <RoomWrapper onClick={() => onRoomClick(id)} style={(reserveInfo.roomId == id) ? activeStyle : undefined }>
       <img src={roomInfo.image} alt={roomInfo.name} style={{ height: "5rem" }} />
       <RoomInfo>
         <RoomName>{roomInfo.name}</RoomName>
