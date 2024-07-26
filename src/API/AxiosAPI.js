@@ -46,15 +46,15 @@ export const getAllBoardAPI = async () => {
 };
 
 // 예약 상세 보기
-// export const getReserveAPI = async (boardId) => {
-//   try {
-//     const response = await axios
-//     .get(`${server}/api/reserve/${boardId}`);
-//     return response.data;
-//   } catch(err) {
-//     console.error(err);
-//   }
-// };
+export const getReserveAPI = async (boardId) => {
+  try {
+    const response = await axios
+    .get(`${server}/api/reserve/${boardId}`);
+    return response.data;
+  } catch(err) {
+    console.error(err);
+  }
+};
 
 // 예약 내역 삭제하기
 export const deleteReserveAPI = async (boardId) => {
