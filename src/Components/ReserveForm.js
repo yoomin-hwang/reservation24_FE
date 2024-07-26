@@ -79,7 +79,8 @@ const ReserveForm = () => {
     // 다음 버튼 누를 시
     const onNext = () => {
         // 값이 안 들어가면 못 넘어가는 로직 추가하기
-        if (!data.date || !data.startTime || !data.endTime || !data.capacity || !data.userName || !data.userFaculty || !data.groupname || !data.purpose) {
+        console.log(data);
+        if (!data.date || !data.startTime || !data.endTime || !data.capacity) {
             alert("모든 필수 입력 필드를 채워야 합니다.");
             return;
         }
@@ -195,8 +196,8 @@ const ReserveForm = () => {
                 </Select>
             </Field> */}
             <BtnWrapper>
-                <Button onClick={onNext}>다음</Button>
                 <Button onClick={onInitialize}>초기화</Button>
+                <Button onClick={onNext}>다음</Button>
             </BtnWrapper>
         </ReserveWrapper>)
     );
