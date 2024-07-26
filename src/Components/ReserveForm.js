@@ -12,11 +12,9 @@ import { useNavigate } from "react-router-dom";
 
 const ReserveForm = () => {
     const navigate = useNavigate();
-    const [availableRooms, setAvailableRooms] = useRecoilState(AvailableRooms);
     const [data, setData] = useRecoilState(ReservationData);
 
     const [roomInfo, setRoomInfo] = useRecoilState(RoomData);
-    const [reserveInfo, setReserveInfo] = useState([]);
 
     const [next, setNext] = useState(false);
 
@@ -44,22 +42,18 @@ const ReserveForm = () => {
 
     const handleDateChange = (d) => {
         setData({ ...data, date: d.toISOString().split("T")[0] });
-        setReserveInfo({ ...reserveInfo, reservationDate: d.toISOString().split("T")[0] });
     };
 
     const handleStartTimeChange = (e) => {
         setData({ ...data, startTime: e.target.value, endTime: "" });
-        setReserveInfo({ ...reserveInfo, startTime: e.target.value, endTime: "" });
     };
 
     const handleEndTimeChange = (e) => {
         setData({ ...data, endTime: e.target.value });
-        setReserveInfo({ ...reserveInfo, endTime: e.target.value });
     };
 
     const handleCapacityChange = (e) => {
         setData({ ...data, capacity: e.target.value });
-        setReserveInfo({ ...reserveInfo, capacity: e.target.value });
     };
 
     // name, faculty, group name, purpose
@@ -106,38 +100,7 @@ const ReserveForm = () => {
         onInitialize();
         navigate("/");
     };
-
-    // 조건에 맞는 회의실 리스트 서버로부터 받아오기
-    const getAvailableRooms = async () => {
-        try {
-            console.log("2 get available rooms");
-            const response = await getAvailableRoomsAPI(reserveInfo);
-            setAvailableRooms(response);
-        } catch(err) {
-            console.error(err);
-        }
-    };
-
-    const getAllRooms = async () => {
-        try {
-            console.log("3 get all rooms");
-            const response = getAllRoomsAPI();
-            console.log(response);
-            setAvailableRooms(response);
-        } catch(err) {
-            console.error(err);
-        }
-    };
-
-    useEffect(() => {
-        getAllRooms();
-    }, []);
-
-    useEffect(() => {
-        // axios 
-        getAvailableRooms();
-    }, [data.capacity, data.date, data.startTime, data.endTime]);
-
+    
     return (
         // 다음 버튼 선택 여부에 따라 보여지는 컴포넌트 달라짐
         (next ? 
