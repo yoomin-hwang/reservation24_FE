@@ -51,14 +51,13 @@ const Logo = styled.div`
 const Menu = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 40%;
+  margin-right: 50%;
 
   font-size: 16px;
 `
 
 const MenuList = styled.div`
-  margin: 1rem;
-  width: 7rem;
+  margin: 0.5rem;
   a {
     text-decoration: none;
     color: black;
