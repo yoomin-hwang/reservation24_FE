@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import Room from "../Components/Room";
 import ReserveForm from "../Components/ReserveForm";
-import { AvailableRooms } from "../Atom";
-import { getAllRoomsAPI } from "../API/AxiosAPI";
+import { AvailableRooms, ReservationData } from "../Atom";
+import { getAllRoomsAPI, getAvailableRoomsAPI } from "../API/AxiosAPI";
 
 const ReservationPage = () => {
   // const [room, setRoom] = useState([]);
@@ -19,22 +19,48 @@ const ReservationPage = () => {
   // }, []);
   
   const [rooms, setRooms] = useRecoilState(AvailableRooms);
+  const [data, setData] = useRecoilState(ReservationData);
 
-  // const getAllRooms = async () => {
-  //   try {
-  //     console.log("1 get all rooms");
-  //     const response = await getAllRoomsAPI();
-  //     console.log(response);
-  //     setRooms(response);
-  //   } catch(err) {
-  //     console.error(err);
-  //   }
-  // };
+  const [reserveInfo, setReserveInfo] = [
+    {
+      reservationDate: data.reservationDate,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      capacity: data.capacity
+    }
+  ];
 
-  // useEffect(() => {
-  //   getAllRooms();
-  // }, []);
-  
+  // 조건에 맞는 회의실 리스트 서버로부터 받아오기
+  const getAvailableRooms = async () => {
+    try {
+        console.log("2 get available rooms");
+        const response = await getAvailableRoomsAPI(reserveInfo);
+        setRooms(response);
+    } catch(err) {
+        console.error(err);
+    }
+  };
+
+  const getAllRooms = async () => {
+      try {
+          console.log("3 get all rooms");
+          const response = getAllRoomsAPI();
+          console.log(response);
+          setRooms(response);
+      } catch(err) {
+          console.error(err);
+      }
+  };
+
+  useEffect(() => {
+      getAllRooms();
+  }, []);
+
+  useEffect(() => {
+      // axios 
+      getAvailableRooms();
+  }, [data.capacity, data.date, data.startTime, data.endTime]);
+
   return (
     <div>
       <Outlet />
