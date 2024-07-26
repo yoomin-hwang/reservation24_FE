@@ -2,26 +2,41 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 
+import { getAllBoardAPI } from "../API/AxiosAPI";
+
 function ReservationTable() {
   const [data, setData] = useState([]);
   
+  // useEffect(() => {
+  //   fetch("/Data/data.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setData(data);
+  //     });
+  // }, []);
+
+  const getAllBoard = async () => {
+    try {
+      const response = await getAllBoardAPI();
+      setData(response);
+    } catch(err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    fetch("/Data/data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      });
+    getAllBoard();
   }, []);
 
   // Define columns for DataGrid
   const columns = [
-    { field: 'no', headerName: 'NO', width: 40 },
-    { field: 'place', headerName: 'Place', width: 150 },
-    { field: 'rdate', headerName: 'Date', width: 120 },
-    { field: 'rtime', headerName: 'Start Time', width: 90 },
-    { field: 'etime', headerName: 'End Time', width: 90 },
-    { field: 'faculty', headerName: 'Faculty', width: 250 },
-    { field: 'professor', headerName: 'Professor', width: 130 },
+    { field: 'id', headerName: 'NO', width: 40 },
+    { field: 'roomName', headerName: 'Place', width: 150 },
+    { field: 'date', headerName: 'Date', width: 120 },
+    { field: 'startTime', headerName: 'Start Time', width: 90 },
+    { field: 'endTime', headerName: 'End Time', width: 90 },
+    { field: 'userFaculty', headerName: 'Faculty', width: 130 },
+    { field: 'userName', headerName: 'Professor', width: 130 },
     { field: 'purpose', headerName: 'Purpose', width: 130 }
   ];
 
