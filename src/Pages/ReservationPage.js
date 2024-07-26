@@ -49,13 +49,13 @@ const ReservationPage = () => {
                 key={room.id} 
                 id={room.id} />
             ))} */}
-            {Array.isArray(rooms) && rooms.length > 0 ? (
-            rooms.map((room) => (
-              <Room key={room.id} id={room.id} />
-            ))
-          ) : (
-            <p>No rooms available</p> // rooms가 빈 배열일 때 사용자에게 메시지 제공
-          )}
+            {rooms.length > 0 ? (
+              rooms.map((room) => (
+                <Room key={room.id} id={room.id} />
+              ))
+            ) : (
+              <p>No rooms available</p> // rooms가 빈 배열일 때 사용자에게 메시지 제공
+            )}
           </RoomsWrapper>
           {/* Reservation Area */}
           <ReserveForm />
@@ -87,17 +87,16 @@ const ContentsWrapper = styled.div`
 
 const RoomsWrapper = styled.div`
   width: 45%;
-  height: 65vh;
+  height: 60vh;
+  overflow-y: scroll;
 
   margin: 1rem;
-  padding: 4rem 2.5rem;
-  border = 1px solid #ECECEC;
+  padding: 2rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow-y: scroll;
+  justify-content: flex-start;
 `
 
 const Title = styled.div`
