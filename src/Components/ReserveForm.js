@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import { getAvailableRoomsAPI, postReserveAPI } from "../API/AxiosAPI";
-import { ReservationData, AvailableRooms } from "../Atom";
+import { ReservationData, AvailableRooms, RoomData } from "../Atom";
 import { getAllRoomsAPI } from "../API/AxiosAPI";
 
 import DatePicker from "react-datepicker";
@@ -15,16 +15,8 @@ const ReserveForm = () => {
     const [availableRooms, setAvailableRooms] = useRecoilState(AvailableRooms);
     const [data, setData] = useRecoilState(ReservationData);
 
-    const [roomInfo, setRoomInfo] = useState({
-        name: "NTH 212",
-        capacity: 20,
-        image: "/logo192.png"
-    });
-    const [reserveInfo, setReserveInfo] = useState({
-        date: "2024-07-23",
-        start: "21:00",
-        end: "21:30",
-    });
+    const [roomInfo, setRoomInfo] = useRecoilState(RoomData);
+    const [reserveInfo, setReserveInfo] = useState([]);
 
     const [next, setNext] = useState(false);
 
@@ -50,29 +42,29 @@ const ReserveForm = () => {
     const startTimes = generateTimeOptions();
     const endTimes = generateEndTimeOptions(data.startTime);
 
-    const handleDateChange = (date) => {
-        setData({ ...data, date });
+    const handleDateChange = (d) => {
+        setData({ ...data, date: d });
+        setReserveInfo({ ...reserveInfo, reservationDate: d });
     };
 
     const handleStartTimeChange = (e) => {
         setData({ ...data, startTime: e.target.value, endTime: "" });
+        setReserveInfo({ ...reserveInfo, startTime: e.target.value, endTime: "" });
     };
 
     const handleEndTimeChange = (e) => {
         setData({ ...data, endTime: e.target.value });
+        setReserveInfo({ ...reserveInfo, endTime: e.target.value });
     };
 
     const handleCapacityChange = (e) => {
         setData({ ...data, capacity: e.target.value });
-    };
-
-    const handleRoomChange = (e) => {
-        setData({ ...data, roomId: parseInt(e.target.value) });
+        setReserveInfo({ ...reserveInfo, capacity: e.target.value });
     };
 
     // name, faculty, group name, purpose
     const handleNameChange = (e) => {
-        setData({ ...data, useName: e.target.value });
+        setData({ ...data, userName: e.target.value });
     };
     const handleFacultyChange = (e) => {
         setData({ ...data, userFaculty: e.target.value });
@@ -85,7 +77,8 @@ const ReserveForm = () => {
     };
 
     const postReservation = () => {
-        const response = postReserveAPI();
+        console.log("4 post reservation");
+        const response = postReserveAPI(data);
         console.log(response);
     }
     
@@ -101,23 +94,24 @@ const ReserveForm = () => {
             date: new Date(),
             startTime: "",
             endTime: "",
-            capacity: 10,
+            capacity: "",
             roomId: ""
         });
     }
 
     // 예약하기 버튼 누를 시
     const onSubmit = () => {
-        postReservation(reserveInfo);
+        postReservation(data);
         alert("예약 완료!");
+        onInitialize();
         navigate("/");
     };
 
     // 조건에 맞는 회의실 리스트 서버로부터 받아오기
     const getAvailableRooms = async () => {
         try {
-            const response = await getAvailableRoomsAPI(data);
-            console.log(response);
+            console.log("2 get available rooms");
+            const response = await getAvailableRoomsAPI(reserveInfo);
             setAvailableRooms(response);
         } catch(err) {
             console.error(err);
@@ -126,6 +120,7 @@ const ReserveForm = () => {
 
     const getAllRooms = async () => {
         try {
+            console.log("3 get all rooms");
             const response = getAllRoomsAPI();
             console.log(response);
             setAvailableRooms(response);
@@ -135,13 +130,13 @@ const ReserveForm = () => {
     };
 
     useEffect(() => {
-        getAllRooms(); 
-      }, []);
+        getAllRooms();
+    }, []);
 
     useEffect(() => {
         // axios 
-        getAvailableRooms(reserveInfo);
-    }, [data]);
+        getAvailableRooms();
+    }, [data.capacity, data.date, data.startTime, data.endTime]);
 
     return (
         // 다음 버튼 선택 여부에 따라 보여지는 컴포넌트 달라짐
@@ -149,19 +144,19 @@ const ReserveForm = () => {
         <ReserveWrapper>
             <Field>
                 <Label>장소</Label>
-                <Label>{roomInfo.name}</Label>
+                <InfoLabel>{roomInfo.name}</InfoLabel>
             </Field>
             <Field>
                 <Label>예약 날짜</Label>
-                <Label>{data.date.toLocaleDateString()}</Label>
+                <InfoLabel>{data.date.toLocaleDateString()}</InfoLabel>
             </Field>
             <Field>
                 <Label>시작 시간</Label>
-                <Label>{data.startTime}</Label>
+                <InfoLabel>{data.startTime}</InfoLabel>
             </Field>
             <Field>
                 <Label>끝 시간</Label>
-                <Label>{data.endTime}</Label>
+                <InfoLabel>{data.endTime}</InfoLabel>
             </Field>
             <Field>
                 <Label>예약자 이름</Label>
@@ -195,7 +190,6 @@ const ReserveForm = () => {
                     selected={data.date}
                     onChange={handleDateChange}
                     minDate={new Date()}
-                    dateFormat="yyyy/MM/dd"
                 />
             </Field>
             <Field>
@@ -224,7 +218,7 @@ const ReserveForm = () => {
                     <option value={30}>30</option>
                 </Select>
             </Field>
-            <Field>
+            {/* <Field>
                 <Label>이용 공간</Label>
                 <Select value={data.roomId} onChange={handleRoomChange}>
                     <option value={0} disabled>Select a room</option>
@@ -232,7 +226,7 @@ const ReserveForm = () => {
                     <option value={2}>Room 2</option>
                     <option value={3}>Room 3</option>
                 </Select>
-            </Field>
+            </Field> */}
             <BtnWrapper>
                 <Button onClick={onNext}>다음</Button>
                 <Button onClick={onInitialize}>초기화</Button>
@@ -288,7 +282,7 @@ const Calendar = styled.button`
 
 const Field = styled.div`
     width: 100%;
-    margin: 1rem;
+    margin: 0.5rem;
     
     font-size: 16px;
 `
@@ -297,13 +291,19 @@ const Label = styled.label`
     margin-right: 10px;
 
     font-size: 16px;
+    font-weight: 600;
 `;
+
+const InfoLabel = styled.div`
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+`
 
 const Input = styled.input`
     width: 100%;
     height: 2.5rem;
 
-    margin-top: 0.2rem;
+    margin-top: 0.5rem;
     padding: 0.2rem;
     border: 1px solid #D4D4D4;
     border-radius: 8px;
@@ -311,7 +311,7 @@ const Input = styled.input`
     font-size: 1rem;
 
     &:focus{
-        border: 1px solid black;
+        border: 1px solid #527CFF;
         outline: none;
     }
 `
@@ -320,7 +320,7 @@ const Select = styled.select`
     width: 100%;
     height: 2.5rem;
 
-    margin-top: 0.2rem;
+    margin-top: 0.5rem;
     padding: 0.2rem;
     border: 1px solid #D4D4D4;
     border-radius: 8px;
@@ -328,7 +328,7 @@ const Select = styled.select`
     font-size: 1rem;
 
     &:focus{
-        border: 1px solid black;
+        border: 1px solid #527CFF;
         outline: none;
     }
 `;
@@ -344,7 +344,7 @@ const StyledDatePicker = styled(DatePicker)`
     font-size: 1rem;
 
     &:focus{
-        border: 1px solid black;
+        border: 1px solid #527CFF;
         outline: none;
     }
 `;

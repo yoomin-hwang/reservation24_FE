@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import { getRoomInfoAPI } from "../API/AxiosAPI";
-import { AvailableRooms, ReservationData } from "../Atom";
+import { RoomData, ReservationData } from "../Atom";
 
 const Room = ({ id }) => {
   // mockup data
@@ -11,7 +11,7 @@ const Room = ({ id }) => {
 
   const [roomInfo, setRoomInfo] = useState({ name: "", capacity: 0, image: "", available: [] });
   const [reserveInfo, setReserveInfo] = useRecoilState(ReservationData);
-  const [rooms, setRooms] = useRecoilState(AvailableRooms);
+  const [roomData, setRoomData] = useRecoilState(RoomData);
 
   const activeStyle = {
     backgroundColor: '#ECECEC',
@@ -20,9 +20,9 @@ const Room = ({ id }) => {
 
   const getRoomInfo = async () => {
     try {
+      console.log("5 get room info");
       const response = await getRoomInfoAPI(id);
       setRoomInfo(response);
-      console.log(response.available);
     } catch (err) {
       console.log(err);
     }
@@ -30,6 +30,7 @@ const Room = ({ id }) => {
 
   const onRoomClick = (id) => {
     setReserveInfo({ ...reserveInfo, roomId: id });
+    setRoomData(roomInfo);
     console.log(reserveInfo);
   };
 
@@ -85,6 +86,7 @@ const RoomAvailableWrapper = styled.div`
 `
 
 const RoomInfo = styled.div`
+  margin: 0.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
